@@ -1,39 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*" %>    
     
 <% 
 	if(request.getParameter("submit")!=null)
 	{
-		String fname = request.getParameter("fname");
-		String fnumber = request.getParameter("fnumber");
-		String ftype = request.getParameter("ftype");
-		String fsalary = request.getParameter("fsalary");
-		String femail = request.getParameter("femail");
-		String fpassword = request.getParameter("fpassword");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 		
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		// con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database_name","username","userpassword");
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jenil_cie3","root","root");
-	
-	
-		pst = con.prepareStatement("insert into faculy(fname,fnumber,ftype,fsalary,femail,fpassword) values(?,?,?,?,?,?)");
-		pst.setString(1, fname);
-		pst.setString(2, fnumber);
-		pst.setString(3, ftype);
-		pst.setString(4, fsalary);
-		pst.setString(5, femail);
-		pst.setString(6, fpassword);
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
+		
+		pst = con.prepareStatement("insert into random(name,email,password) values(?,?,?)");
+		pst.setString(1, name);
+		pst.setString(2, email);
+		pst.setString(3, password);
 		pst.executeUpdate();
-		response.sendRedirect("login.jsp");		
+		response.sendRedirect("login.jsp");
 	}
-
-%>    
+%>
     
 <!DOCTYPE html>
 <html>
@@ -42,35 +33,25 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Faculty Table</h1>
-	<form method="post" action="#">
+	<form action="#" method="post">
 		<div>
-			<label>Faculty Name:</label><br>
-			<input type="text" id="fname" name="fname">
+			<label>Name:</label><br>
+			<input type="text" id="name" name="name">
 		</div>
+		<br>
 		<div>
-			<label>Faculty Number:</label><br>
-			<input type="text" id="fnumber" name="fnumber">
+			<label>Email:</label><br>
+			<input type="text" id="email" name="email">
 		</div>
+		<br>
 		<div>
-			<label>Faculty Type:</label><br>
-			<input type="text" id="ftype" name="ftype">
+			<label>Password:</label><br>
+			<input type="text" id="password" name="password">
 		</div>
+		<br>
 		<div>
-			<label>Faculty Salary:</label><br>
-			<input type="text" id="fsalary" name="fsalary">
-		</div>
-		<div>
-			<label>Faculty Email:</label><br>
-			<input type="text" id="femail" name="femail">
-		</div>
-		<div>
-			<label>Faculty Password:</label><br>
-			<input type="text" id="fpassword" name="fpassword">
-		</div>
-		<div>
-		<br>	<input type="submit" id="submit" name="submit">
-			<input type="reset" id="reset" name="reset">
+			<input type="submit" id="submit" name="submit" value="submit">
+			<input type="reset" id="reset" name="reset" value="reset">
 		</div>
 	</form>
 </body>

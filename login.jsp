@@ -1,39 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+ 
 <%@ page import="java.sql.*" %>
 
 <% 
 	if(request.getParameter("submit")!=null)
 	{
-		String femail = request.getParameter("femail");
-		String fpassword = request.getParameter("fpassword");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 		
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jenil_cie3","root","root");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 		
-		pst = con.prepareStatement("select * from faculy where femail=? and  fpassword=?");
-		pst.setString(1, femail);
-		pst.setString(2, fpassword);
+		pst = con.prepareStatement(" select * from random where email=? and password=? ");
+		pst.setString(1, email);
+		pst.setString(2, password);
 		rs = pst.executeQuery();
 		
 		if(rs.next())
 		{
 			session = request.getSession();
-			session.setAttribute("femail", femail);
+			session.setAttribute("email", email);
 			response.sendRedirect("home.jsp");
 		}
 		else
 		{
-			out.println("Login Failded!");
+			out.println("Invalid email or password");		
 		}
-}
-%>
-
+	}
+%> 
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,19 +41,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Faculty Table Login</h1>
-	<form method="post" action="#">
+	<form action="#" method="post">
 		<div>
-			<label>Faculty Email:</label><br>
-			<input type="text" id="femail" name="femail">
+			<label>Email:</label><br>
+			<input type="text" id="email" name="email">
 		</div>
+		<br>
 		<div>
-			<label>Faculty Password:</label><br>
-			<input type="text" id="fpassword" name="fpassword">
+			<label>Password:</label><br>
+			<input type="text" id="password" name="password">
 		</div>
+		<br>
 		<div>
-		<br>	<input type="submit" id="submit" name="submit">
-			<input type="reset" id="reset" name="reset">
+			<input type="submit" id="submit" name="submit" value="submit">
+			<input type="reset" id="reset" name="reset" value="reset">
 		</div>
 	</form>
 </body>

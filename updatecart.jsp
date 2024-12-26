@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
 <%@ page import="java.sql.*" %>    
     
 <% 
@@ -15,23 +14,35 @@
 		
 		Connection con;
 		PreparedStatement pst;
+		PreparedStatement pst1;
 		ResultSet rs;
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 		
-		pst = con.prepareStatement("update random1 set name=?, contact=?, city=?, gender=? where id=? ");
+		pst = con.prepareStatement("update cart set name=?, contact=?, city=?, gender=? where id=? ");
 		pst.setString(1, name);
 		pst.setString(2, contact);
 		pst.setString(3, city);
 		pst.setString(4, gender);
 		pst.setString(5, id);
 		pst.executeUpdate();
+		
+		
+		pst1 = con.prepareStatement("update random1 set name=?, contact=?, city=?, gender=? where id=? ");
+		pst1.setString(1, name);
+		pst1.setString(2, contact);
+		pst1.setString(3, city);
+		pst1.setString(4, gender);
+		pst1.setString(5, id);
+		pst1.executeUpdate();
 %>
-	<script> alert('Record Updated.');</script>
+	<script> alert('cart Updated.');</script>
 <% 	
 	}
 %>
+
+
 
 
 <!DOCTYPE html>
@@ -55,7 +66,7 @@
 	Class.forName("com.mysql.jdbc.Driver");
 	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 	
-	pst = con.prepareStatement("select * from random1 where id=? ");
+	pst = con.prepareStatement("select * from cart where id=? ");
 	pst.setString(1, id);
 	rs = pst.executeQuery();
 	
@@ -97,7 +108,7 @@
 		</div>
 		
 		<div>
-			<a href="home.jsp"><h1>Index page</h1></a>
+			<a href="cart.jsp"><h1>Cart page</h1></a>
 		</div>
 	</form>
 </div>

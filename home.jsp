@@ -4,45 +4,46 @@
 <%@ page import="java.sql.*" %>
 
 <%
-	String femail = (String) session.getAttribute("femail");
-	
-	if(femail == null)
-	{
-		response.sendRedirect("login.jsp");
-	}
-	else
-	{
-		out.println("welcome:"+femail);
-	}
-%>
-
-<%
 	if(request.getParameter("submit")!=null)
 	{
-		String sname = request.getParameter("sname");
-		String scontact = request.getParameter("scontact");
-		String scity = request.getParameter("scity");
-		String sgender = request.getParameter("sgender");
+		String name = request.getParameter("name");
+		String contact = request.getParameter("contact");
+		String city = request.getParameter("city");
+		String gender = request.getParameter("gender");
+		
 		
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jenil_cie3","root","root");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 		
-		pst = con.prepareStatement("insert into student(sname,scontact,scity,sgender) values(?,?,?,?)");
-		pst.setString(1, sname);
-		pst.setString(2, scontact);
-		pst.setString(3, scity);
-		pst.setString(4, sgender);
+		pst = con.prepareStatement("insert into random1(name,contact,city,gender) values(?,?,?,?)");
+		pst.setString(1, name);
+		pst.setString(2, contact);
+		pst.setString(3, city);
+		pst.setString(4, gender);
 		pst.executeUpdate();
 %>
 	<script> alert('Record Inserted.');</script>
-<%
+<% 		
 	}
 %>
-
+    
+<% 
+	String email = (String) session.getAttribute("email");
+	
+	if(email == null)
+	{
+		response.sendRedirect("login.jsp");
+	}
+	else
+	{
+		out.println("welcom:"+email);
+	}
+%>  
+  
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,91 +52,101 @@
 </head>
 <body>
 
-	<form method="post" action="logout.jsp">
-		<a href="logout.jsp">
-		<input type="submit" value="logout" >
-		</a>
-	</form>
+<form method="post" action="logout.jsp">
+	<a href="logout.jsp">	
+	<input type="submit" value="logout">
+	</a>
+</form>
 
-	<div>
-		<h1>div for form</h1>
-		<form method="post" action="#">
-			<div>
-				<label> Student Name:</label><br>
-				<input type="text" name="sname" id="sname">
-			</div>
-			<br>
-			<div>
-				<label>Student Contact:</label><br>
-				<input type="number" name="scontact" id="scontact">
-			</div>
-			<br>
-			<div>
-				<label> Student City:</label><br>
-				<input type="radio" name="scity" id="scity" value="surat" checked>surat
-				<input type="radio" name="scity" id="scity" value="mumbai" >mumbai
-				<input type="radio" name="scity" id="scity" value="mirzapur">mirzapur
-			</div>
-			<br>
-			<div>
-				<label>Student Gender:</label><br>
-				<select name="sgender" id="sgender">
-					<option name="sgender" id="sgender" value="male" checked>Male</option>
-					<option name="sgender" id="sgender" value="female">Female</option>
-					<option name="sgender" id="sgender" value="other">Other</option>
-				</select>
-			</div>
-			<div>
-				<input type="submit" name="submit" id="submit">
-				<input type="reset" name="reset" id="reset">
-			</div>
+<div>
+	<h1> form random</h1>
+	<form action="#" method="post">
+		<div>
+			<label>Name:</label><br>
+			<input type="text" id="name" name="name">
+		</div>
+		<br>
+		<div>
+			<label>Contact:</label><br>
+			<input type="text" id="contact" name="contact">
+		</div>
+		<br>
+		<div>
+			<label>City:</label><br>
+			<select name="city" id="city">
+				<option name="city" id="city" value="surat">surat</option>
+				<option name="city" id="city" value="johnpur">johnpur</option>
+				<option name="city" id="city" value="mirzapur">mirzapur</option>
+			</select>
+		</div>
+		<br>
+		<div>
+			<label>Gender:</label><br>
+			<input type="radio" id="gender" name="gender" value="male">male
+			<input type="radio" id="gender" name="gender" value="female">female
+			<input type="radio" id="gender" name="gender" value="other">other
+		</div>
+		<br>
 		
-		</form>
-	</div>
-	
-	
-	<div>
-		<h1>div for table</h1>
-		<table border=1>
-			<thead>
-					<tr>
-						<th>Name</th>
-						<th>Contact</th>
-						<th>City</th>
-						<th>Gender</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>	
-<% 
+		<div>
+			<input type="submit" id="submit" name="submit" value="submit">
+			<input type="reset" id="reset" name="reset" value="reset">
+		</div>
+	</form>
+</div>
+
+
+
+
+<div>
+	<h1>Table</h1>
+	<table border=1>
+		<thead>
+			<tr>
+				<th> Name </th>
+				<th> Contact </th>
+				<th> City </th>
+				<th> Gender </th>
+				<th> Edit </th>
+				<th> Delete </th>
+				<th> Add to Cart </th>
+			</tr>
+<%
 	Connection con;
 	PreparedStatement pst;
 	ResultSet rs;
 	
 	Class.forName("com.mysql.jdbc.Driver");
-	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jenil_cie3","root","root");
+	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 	
-	String query = "select * from student";
+	String query = "select * from random1";
 	Statement st = con.createStatement();
 	rs = st.executeQuery(query);
 	
 	while(rs.next())
 	{
 		String id = rs.getString("id");
-%>						
-					<tr>
-						<td><%= rs.getString("sname") %></td>
-						<td> <%= rs.getString("scontact") %> </td>
-						<td> <%= rs.getString("scity")%> </td>
-						<td> <%= rs.getString("sgender") %> </td>
-						<td><a href="update.jsp?id=<%= id %>">Edit</a> </td>
-						<td><a href="delete.jsp?id=<%= id %>">Delete</a> </td>
-					</tr>
-<%
-	}
-%>					
-			</thead>
-		</table>
-	</div>
-	
+		String name = rs.getString("name");
+		String contact = rs.getString("contact");
+		String city = rs.getString("city");
+		String gender = rs.getString("gender");
+%>			
+			<tr>
+				<td><%= rs.getString("name") %></td>
+				<td><%= rs.getString("contact") %></td>
+				<td><%= rs.getString("city") %></td>
+				<td><%= rs.getString("gender") %></td>
+				<td><a href="update.jsp?id=<%= id %>">Edit</a></td>
+				<td><a href="delete.jsp?id=<%= id %>">Delete</a></td>
+				<td><a href="addcart.jsp?id=<%= id %>&name=<%= name %>&contact=<%= contact %>&city=<%= city %>&gender=<%= gender %>">Add to Cart</a></td>
+			</tr>
+<% 
+}
+%>
+		</thead>
+	</table>
+</div>
+
+
 </body>
 </html>

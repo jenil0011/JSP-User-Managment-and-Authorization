@@ -13,9 +13,9 @@
 		Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cie3_practice","root","root");
 		
-		pst = con.prepareStatement("delete from random1 where id=? ");
+		pst = con.prepareStatement("delete from cart where id=? ");
 		pst.setString(1, id);
 		pst.executeUpdate();
-		response.sendRedirect("home.jsp");
+		response.sendRedirect("cart.jsp");
 	
 %>
